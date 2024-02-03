@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+  <style>
+    #map {
+      height: 900px;
+    }
+    .popup-content {
+      color: #333; /* Change font color */
+      font-weight: bolder; /* Make text bold */
+      font-family: 'Roboto', sans-serif;
+      max-height: 300px;
+      overflow: auto;
+    }
+    .legend {
+      background-color: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      z-index: 1000;
+    }
+
+    .legend-item {
+      margin-bottom: 10px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+    }
+
+    .legend-head{
+        margin-bottom: 10px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 1.5rem;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    @media screen and (max-width:800px){
+      .legend-item{
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<div id="legend" class="legend"></div>
+
+<script>
+  var map = L.map('map').setView([20.5937, 78.9629], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.de/karte.html">OpenStreetMap.de</a> contributors'
+  }).addTo(map);
+  
+
+  var locations = [
+      { 
+        name: 'Kanagalingam', coordinates: [12.0827, 80.2700], phoneNo: '9840843055', mailId: 'kanag@kpmanish.com', color: '#008000', header: true,
+        tableData: [
+          { Name: 'Dinesh Kumar', PhoneNo: '9176620065', mailId:'dineshkumar@kpmanish.com',color:'#000000' },
+          { Name: 'Ravi Shankar', PhoneNo: '6382891809', mailId:'ravi.rawal@kpmanish.com', color:'#000000' },
+          { Name: 'Vasant', PhoneNo: '9445503250', mailId:'vasanth@kpmanish.com', color:'#000000' },
+          { Name: 'Prathik Jain', PhoneNo: '8122204237', mailId:'prathik@kpmanish.com', color:'#000000' },
+          { Name: 'Devendra Kumar', PhoneNo: '9884127783', mailId:'dev@kpmanish.com', color:'#000000' },
+          // Add more rows and columns as needed
+        ]
+      },
+      {
+      name: 'Sundar', coordinates: [11.0827, 79.2700], phoneNo: '9176066154', mailId: 'sundar@kpmanish.com', color: '#BF94E4', header: true,
+      },
+      {
+        name: 'Lab', coordinates: [11.0827, 80.2700], phoneNo: '9840843055', mailId: 'kanag@kpmanish.com', color: '#FF0000', header: false,
+        tableData: [
+          { Name: 'Selva Kumar', PhoneNo: '8072727433', mailId:'selva@kpmanish.com',color:'#FF0000' },
+          { Name: 'Vivek R', PhoneNo: '6380434484', mailId:'vivek@kpmanish.com', color:'#FF0000' },
+          { Name: 'Sri Ram', PhoneNo: '8526512364', mailId:'sriram@kpmanish.com', color:'#FF0000' },
+       ]
+      },
+      { 
+        name: 'Sidarath', coordinates: [12.0827, 79.2700], phoneNo: '9003899899', mailId: 'sidarath@kpmanish.com', color: '#964B00', header: true,
+        tableData: [
+          { Name: 'Akshay Divakar', PhoneNo: '744860009', mailId:'akshaydivakar@kpmanish.com',color:'#000000' },
+          { Name: 'Devanampriyan', PhoneNo: '9444379854', mailId:'devanampriyan@kpmanish.com', color:'#000000' },
+          { Name: 'YOGESHWARAN', PhoneNo: '9150061393', mailId:' yogeshwarans@kpmanish.com', color:'#000000' },
+          { Name: 'Muraliltharan', PhoneNo: '9884127758', mailId:'muralitharan@kpmanish.com', color:'#000000' },
+          // Add more rows and columns as needed
+        ]
+      },
+      { 
+        name: 'Raj Kumar', coordinates: [28.6139, 77.2090], phoneNo: '8939257779', mailId:'raj@kpmanish.com', color: '#FFA500', header: true,
+        tableData: [
+          { Name: 'Khushab Sharma', PhoneNo: '7296988309', mailId:'khushabsharma@kpmanish.com',color:'#000000' },
+          { Name: 'Vibhor Kumar', PhoneNo: '7824812177', mailId:'vibhor@kpmanish.com', color:'#000000' },
+          { Name: 'Rahul Pandey', PhoneNo: '8400736747', mailId:'rahul.pandey@kpmanish.com', color:'#000000' },
+          { Name: 'Abhishek Singh', PhoneNo: '9822993064', mailId:'abhishek.singh@kpmanish.com', color:'#000000' },
+          { Name: 'Shivendra Singh', PhoneNo: '8318783548', mailId:'shivendra@kpmanish.com', color:'#000000' },
+          { Name: 'Amit Baliyan', PhoneNo: '9136400758', mailId:'amitbaliyan@kpmanish.com', color:'#000000' },
+          { Name: 'Rakesh Tiwari', PhoneNo: '6379515434', mailId:'rakesh@kpmanish.com', color:'#000000' },
+          { Name: 'Devendra Vish', PhoneNo: '8445128221', mailId:'dev.vishwakarma@kpmanish.com', color:'#000000' },
+          { Name: 'Aditya Gupta', PhoneNo: '7550018966', mailId:'aditya@kpmanish.com', color:'#000000' },
+          { Name: 'Rajesh Bisht', PhoneNo: '7550238222', mailId:'rajeshbisht@kpmanish.com', color:'#000000' },
+          { Name: 'Praveen Sharma', PhoneNo: '9718765148', mailId:'praveen@kpmanish.com', color:'#000000' },
+          { Name: 'Akash Kumar', PhoneNo: '9718099012', mailId:'aakashkumar@kpmanish.com', color:'#000000' },
+          { Name: 'Kailash Pandey', PhoneNo: '7448600093', mailId:'pandey@kpmanish.com', color:'#000000' },
+          // Add more rows and columns as needed
+        ]
+      },
+      { 
+        name: 'Hitesh Antia', coordinates: [19.0760, 72.8777], phoneNo: '9821548723', mailId:'hitesh@kpmanish.com', color: '#FFA500',header: true,
+        tableData: [
+          { Name: 'Abhishek', PhoneNo: '9176065989', mailId:'abhishek.c@kpmanish.com',color:'#000000' },
+          { Name: 'Aniket Patare', PhoneNo: '7030206405', mailId:'aniket.patare@kpmanish.com', color:'#000000' },
+          { Name: 'Kishan Sharma', PhoneNo: '7806809149', mailId:'kishan@kpmanish.com', color:'#000000' },
+          { Name: 'Bhushan', PhoneNo: '9320302094', mailId:'bhushan@kpmanish.com', color:'#000000' },
+          { Name: 'Deepak Shinde', PhoneNo: '8530686198', mailId:'deepak.shinde@kpmanish.com', color:'#000000' },
+          { Name: 'Devendra B', PhoneNo: '8939359997', mailId:'devendra.singh@kpmanish.com', color:'#000000' },
+          { Name: 'RN Khandelwal', PhoneNo: '9321949783', mailId:'khandelwal@kpmanish.com', color:'#000000' },
+          { Name: 'Nitin Marathe', PhoneNo: '9320120095', mailId:'nitin@kpmanish.com', color:'#000000' },
+          { Name: 'Prajyot Naik', PhoneNo: '9344042634', mailId:'prajyot@kpmanish.com', color:'#000000' },
+          { Name: '	Prashant kumar', PhoneNo: '7666882188', mailId:'prashant@kpmanish.com', color:'#000000' },
+          { Name: 'Ronak Jain', PhoneNo: '8976351833', mailId:'ronak@kpmanish.com', color:'#000000' },
+          { Name: 'Sagar shah', PhoneNo: '8080483296', mailId:'sagar@kpmanish.com', color:'#000000' },
+          { Name: 'Shubman tiwari', PhoneNo: '8898826700', mailId:'shubham.tiwari@kpmanish.com', color:'#000000' },
+          { Name: 'Sujeet', PhoneNo: '7977622452', mailId:'sujeetkumar@kpmanish.com', color:'#000000' },
+          // Add more rows and columns as needed
+        ]
+      },
+      { 
+        name: 'Haresh Prajapati', coordinates: [22.2587, 71.1924], phoneNo: '9427703245', mailId:'haresh.prajapati@kpmanish.com', color: '#000000', header:true,
+        tableData: [
+          { Name: 'Hemant', PhoneNo: '9820977414', mailId:'hemant@kpmanish.com',color:'#000000' },
+          { Name: 'Jignesh Patel', PhoneNo: '9974444058', mailId:'jigneshp@kpmanish.com', color:'#000000' },
+          { Name: 'Mrunal', PhoneNo: '9962893888', mailId:'mrunal@kpmanish.com', color:'#000000' },
+          { Name: 'Shambhu', PhoneNo: '7845759777', mailId:'shambhu@kpmanish.com', color:'#000000' },
+          { Name: 'Dainik', PhoneNo: '9106224410', mailId:'dainik@kpmanish.com', color:'#000000' },
+          // Add more rows and columns as needed
+        ]
+      },
+      { 
+        name: 'Mangalesh', coordinates: [22.7196, 75.8577], phoneNo: '9827378914', mailId:'mangalesh@kpmanish.com', color: '#000000', header:true,
+      },
+      { 
+        name: 'Mogili', coordinates: [17.3850, 78.4867], phoneNo: '9177003936', mailId:'bd@kpmanish.com', color: '#000000', header:true,
+        tableData: [
+          { Name: 'Lalit Bhattad', PhoneNo: '8248736734', mailId:'lalit@kpmanish.com',color:'#000000' },
+          { Name: 'Madhu', PhoneNo: '9642970284', mailId:'madhusudhan@kpmanish.com', color:'#000000'},
+          // Add more rows and columns as needed
+        ]
+      },
+      // Add more locations as needed
+  ];
+
+
+  locations.forEach(function (location) {
+    var marker = L.marker(location.coordinates).addTo(map);
+    marker.bindPopup(generatePopupContent(location));
+  });
+
+  // Create legend
+  var legendContent ='<div class="legend-item" style="color: #008000;">Pharma Head</div>' +
+                      '<div class="legend-item" style="color: #964B00;">Food Head</div>' +
+                      '<div class="legend-item" style="color: #BF94E4;">Cosmetics Head</div>' +
+                      '<div class="legend-item" style="color: #FFA500;">Zonal Head</div>'+
+                      '<div class="legend-item" style="color: #FF0000;">Lab team</div>';
+  document.getElementById('legend').innerHTML = '<div class="legend-head"><b>KPMG Guide</b></div>' + legendContent;
+  function generatePopupContent(location) {
+    if (location.header === true){
+    var popupContent = '<div class="popup-content" style="color: ' + location.color + ';">' +
+                         '<table>' +
+                         '<tr><th>Name</th><td>' + location.name + '</td></tr>' +
+                         '<tr><th>Contact</th><td>' + location.phoneNo + '</td></tr>' +
+                         '<tr><th>Mail ID</th><td>' + location.mailId + '</td></tr>' +
+                         '</table>';
+    }else{
+      var popupContent = '<div class="popup-content">';
+    }
+
+    // Additional table data
+    if (location.tableData && location.tableData.length > 0) {
+      popupContent += '<table>' +
+                      '<tr style="color: '+ location.tableData[1].color + ';"><th>Name</th><th>PhoneNo</th><th>MailId</th></tr>';
+
+      location.tableData.forEach(function (row) {
+        popupContent += '<tr style="color: '+ location.tableData[1].color + ';"><td>' + row.Name + '</td><td>' + row.PhoneNo + '</td><td>' + row.mailId + '</tr>';
+      });
+
+      popupContent += '</table>';
+    }
+
+    popupContent += '</div>';
+    return popupContent;
+  }
+</script>
+
+</body>
+</html>
