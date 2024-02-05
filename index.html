@@ -199,10 +199,10 @@
     // Additional table data
     if (location.tableData && location.tableData.length > 0) {
       popupContent += '<table>' +
-                      '<tr style="color: '+ location.tableData[1].color + ';"><th>Name</th><th>PhoneNo</th><th>MailId</th></tr>';
+                      '<tr style="color: '+ location.tableData[1].color + ';"><th>Name</th><th>PhoneNo</th><th>MailId</th><th>Segment</th></tr>';
 
       location.tableData.forEach(function (row) {
-        popupContent += '<tr style="color: '+ location.tableData[1].color + ';"><td>' + row.Name + '</td><td>' + row.PhoneNo + '</td><td>' + row.mailId + '</tr>';
+        popupContent += '<tr style="color: '+ location.tableData[1].color + ';"><td>' + row.Name + '</td><td>' + row.PhoneNo + '</td><td>' + row.mailId + '</td><td>' + row.segment + '</tr>';
       });
 
       popupContent += '</table>';
