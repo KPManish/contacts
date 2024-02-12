@@ -18,13 +18,14 @@
       overflow: auto;
     }
     .legend {
-      background-color: #fff;
+      background-color: black;
+      color: white;
       padding: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
       position: absolute;
-      bottom: 30px;
-      left: 10px;
+      top: 20px;
+      right: 10px;
       z-index: 1000;
     }
 
@@ -36,7 +37,6 @@
     }
 
     .legend-head{
-        margin-bottom: 10px;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         font-size: 1rem;
     }
@@ -185,7 +185,7 @@
                       '<div class="legend-item" style="color: #BF94E4;">Cosmetics</div>' +
                       '<div class="legend-item" style="color: #FFA500;">Zonal Incharge</div>'+
                       '<div class="legend-item" style="color: #FF0000;">Lab team</div>';
-  document.getElementById('legend').innerHTML = '<div class="legend-head"><b>KP Manish Contacts</b></div>' + legendContent;
+  document.getElementById('legend').innerHTML = '<div class="legend-head"><b>KP Manish Contacts</b></div>' ;
   function generatePopupContent(location) {
     if (location.header === true){
     var popupContent = '<div class="popup-content" style="color: ' + location.color + ';">' +
